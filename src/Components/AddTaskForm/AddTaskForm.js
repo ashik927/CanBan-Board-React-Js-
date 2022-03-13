@@ -22,6 +22,7 @@ const AddTaskForm = (props) => {
          props.deleteTask(id)
       }
 
+      
     return (
         <>
             <form className="card add-task-form">
