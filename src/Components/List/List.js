@@ -6,9 +6,11 @@ import './List.css';
 const List = (props) => {
   const [checkDisable , setCheckDisable] = useState(false)
   const [renameValue , setRenameValue] = useState()
+
   useEffect(() => {
     setRenameValue(props.title)
-}, [props.title])
+  }, [props.title])
+
   const cards = props.cards.map((card, index) => {
     return (
       <li key={index}>
@@ -23,7 +25,7 @@ const List = (props) => {
 
    const handleRenameValue = (e) => {
     setRenameValue(e.target.value)
-  }
+   }
  
   const handleRename =(id) => {
       props.renameTitle(id,renameValue)

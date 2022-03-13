@@ -8,6 +8,7 @@ const TaskCard = (props) => {
     const handleDoubleClick = () => {
         setCheckDisable(true)
     }
+    
     useEffect(() => {
         setRenameValue(props.taskText)
     }, [props.taskText])
@@ -23,9 +24,6 @@ const TaskCard = (props) => {
 
     return (
         <div className="task-card" draggable={props.lock ? false : true} id={[props.timeId]} onDragStart={props.onDragStart}>
-            {/* <div onDoubleClick={handleDoubleClick}>
-                 <input value={props.taskText} disabled={checkDisable ? false :true}></input>
-            </div> */}
           { 
            !checkDisable ?
             <div onDoubleClick={handleDoubleClick}>

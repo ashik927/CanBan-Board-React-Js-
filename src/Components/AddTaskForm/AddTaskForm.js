@@ -2,12 +2,12 @@ import React,{useState} from 'react';
 import './AddTaskForm.css';
 
 const AddTaskForm = (props) => {
-    const [editing,setediting] = useState (false)
     const [value,setValue] = useState("")
 
       const handleChange = (e) => {
         setValue(e.target.value)
       }
+
       const  clickSubmit=(event)=> {
         event.preventDefault();
         const taskText = value.trim();
@@ -17,11 +17,6 @@ const AddTaskForm = (props) => {
         }
         setValue("")
       }
-    
-     const setEditing = (editing) => {
-         setediting(editing);
-      }
-      console.log("propsprops",props)
 
       const deleteTaskk = (id) => {
          props.deleteTask(id)
@@ -40,9 +35,8 @@ const AddTaskForm = (props) => {
                 </div>
             </form>
             <button className="button add-button" onClick={() => deleteTaskk(props.formNum)} >Delete List</button>
-
         </>
     );
-};
+  };
 
 export default AddTaskForm;
