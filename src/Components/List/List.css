@@ -14,18 +14,28 @@
   }
   
   .name-0 {
-    background-color: rgb(189, 136, 189);
+    background-color: rgb(201, 155, 201);
   }
   
   .name-1 {
-    background-color: aqua;
+    background-color: rgb(22, 236, 236);
   }
   
   .name-2 {
-    background-color: rgb(101, 101, 159);
+    background-color: rgb(27, 27, 196);
   }
   
   .name-3 {
     background-color: orange;
   }
+  .name-4 {
+    background-color: red;
+  }
+  .name-5 {
+    background-color: blue;
+  }
+  .name-5 {
+    background-color: green;
+  }
+  
   

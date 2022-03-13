@@ -123,6 +123,11 @@ const Board = () => {
                 onDragOver={(e) => onDragOver(e)}
                 onDrop={(e, listNum) => { onDrop(e, `${list.id}`) }}
                 deleteTask={(id)=>deleteTask(id)}
+                lockTaskList={(id,timeId)=>lockTaskList(id,timeId)}
+                unLockTaskList={(id,timeId)=>unLockTaskList(id,timeId)}
+                renameCard={(id,timeId,name)=>renameCard(id,timeId,name)}
+                deleteTaskList={(id,timeId,name)=>deleteTaskList(id,timeId,name)}
+                renameTitle={(id,name)=>renameTitle(id,name)}
             />
         </li>
     ));
@@ -145,11 +150,66 @@ const Board = () => {
       }
 
       const deleteTask = (id) =>{
-           const filterData = lists && lists.filter(singleList=>singleList.id != id)
-           setLists(filterData)
-           setLoad(true)
+          const confirm = window.confirm('Are you sure you want to delete')
+          if(confirm){
+            const filterData = lists && lists.filter(singleList=>singleList.id != id)
+            setLists(filterData)
+            setLoad(true)
+          }   
       }
-    
+    const lockTaskList = (id , timeid) =>{
+        const newList = lists
+        const filterList = lists && lists.find(singleList=>singleList.id == id)
+        const filterTask = filterList && filterList?.cards?.find(value=>value.timeId == timeid)
+        const filterTaskIndex = filterList && filterList?.cards?.findIndex(value=>value.timeId == timeid)
+        filterTask.lock = true
+        newList[id].cards.splice(filterTaskIndex,1,filterTask)
+        setLoad(true)
+        setLists(newList)
+    }
+    const unLockTaskList = (id , timeid) =>{
+        const newList = lists
+        const filterList = lists && lists.find(singleList=>singleList.id == id)
+        const filterTask = filterList && filterList?.cards?.find(value=>value.timeId == timeid)
+        const filterTaskIndex = filterList && filterList?.cards?.findIndex(value=>value.timeId == timeid)
+        filterTask.lock = false
+        newList[id].cards.splice(filterTaskIndex,1,filterTask)
+        setLoad(true)
+        setLists(newList)
+    }
+
+    const renameCard = (id , timeid , name) =>{
+        const newList = lists
+        const filterList = lists && lists.find(singleList=>singleList.id == id)
+        const filterTask = filterList && filterList?.cards?.find(value=>value.timeId == timeid)
+        const filterTaskIndex = filterList && filterList?.cards?.findIndex(value=>value.timeId == timeid)
+        filterTask.taskText = name
+        newList[id].cards.splice(filterTaskIndex,1,filterTask)
+        setLoad(true)
+        setLists(newList)
+    }
+   const renameTitle = (id,name) => {
+    const newList = lists
+    // const filterList = lists && lists.find(singleList=>singleList.id == id)
+    // const filterTaskIndex =  lists && lists.findIndex(singleList=>singleList.id == id)
+    newList[id].title = name
+    setLists(newList)
+    setLoad(true)
+   }
+   const deleteTaskList = (id , timeid) =>{
+       let confirm = window.confirm('Are you sure you want to delete?')
+       if(confirm){
+        const newList = lists
+        const filterList = lists && lists.find(singleList=>singleList.id == id)
+        const filterTask = filterList && filterList?.cards?.find(value=>value.timeId == timeid)
+        const filterTaskIndex = filterList && filterList?.cards?.findIndex(value=>value.timeId == timeid)
+        filterTask.lock = true
+        newList[id].cards.splice(filterTaskIndex,1)
+        setLoad(true)
+        setLists(newList)
+       }   
+   }
+
     return (
         <div className="board">
             <ul className="lists">
@@ -158,10 +218,9 @@ const Board = () => {
                        <>
                         {listsAll}
                         <form className="card add-task-form">
-                        <input style={{ border:'1px solid red' }}  value={value} type="text" class="task-input"  name="textValue" onChange={(e) => handleChange(e)} placeholder="Add a list" />
-                       
+                        <input style={{ border:'1px solid red' }}  value={value} type="text" class="task-input"  name="textValue" onChange={(e) => handleChange(e)} placeholder="Add a Title" />
                         {
-                           value.length > 0 &&
+                           value.trim().length > 0 &&
                             <div>
                                 <button className="button add-button" onClick={(e) => clickSubmit(e)} >Add a List</button>
                             </div>
@@ -171,26 +230,15 @@ const Board = () => {
                         :
                         <form className="card add-task-form">
 
-                            <input style={{ border:'1px solid red' }} value={value} type="text" class="task-input"   onChange={(e) => handleChange(e)} placeholder="Add a list" />
+                            <input style={{ border:'1px solid red' }} value={value} type="text" class="task-input"   onChange={(e) => handleChange(e)} placeholder="Add a Title" />
                            
                            {
-                           value.length > 0 &&
+                           value.trim().length > 0 &&
                            <div>
                                 <button className="button add-button" onClick={(e) => clickSubmit(e)} >Add a List</button>
                             </div>}
                         </form>
                 }
-                {/* { 
-                    lists && lists.length >0 && lists.map((list, index) => (
-                        <li className="list-wrapper" key={index}>
-                            <List {...list}
-                                onAdd={(taskText, listNumber) => addTaskCard(taskText, listNumber)}
-                                onDragStart={(e, fromList) => onDragStart(e, `${list.id}`)}
-                                onDragOver={(e) => onDragOver(e)}
-                                onDrop={(e, listNum) => { onDrop(e, `${list.id}`) }}
-                            />
-                        </li>))
-                } */}
             </ul>
         </div>
     );

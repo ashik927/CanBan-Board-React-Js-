@@ -33,7 +33,7 @@ const AddTaskForm = (props) => {
                 <input type="text" class="task-input" value={value} name="textValue" onChange={(e) => handleChange(e)} placeholder="Add a task" />
                 <div>
                   {
-                    value.length > 0 &&
+                    value.trim().length > 0 &&
                     <button className="button add-button" onClick={(e) => clickSubmit(e)} >Submit Task</button>
                   }
                    
